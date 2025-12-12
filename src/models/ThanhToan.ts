@@ -47,7 +47,7 @@ const ThanhToanSchema = new Schema<IThanhToan>(
     },
     nguoiThuTien: {
       type: Schema.Types.ObjectId,
-      ref: 'NguoiDung',
+      ref: 'User',
     },
     ghiChu: { type: String },
   },

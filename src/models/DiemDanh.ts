@@ -34,5 +34,6 @@ const DiemDanhSchema = new Schema<IDiemDanh>(
 
 // Mỗi học viên chỉ có 1 bản ghi điểm danh / 1 buổi
 DiemDanhSchema.index({ buoiTap: 1, hocVien: 1 }, { unique: true });
+DiemDanhSchema.index({ hocVien: 1, thoiGianDiemDanh: -1 });
 
 export const DiemDanh = model<IDiemDanh>('DiemDanh', DiemDanhSchema);

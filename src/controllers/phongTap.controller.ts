@@ -5,7 +5,26 @@ import {
   updatePhongTap,
   CreatePhongTapDto,
   UpdatePhongTapDto,
+  getPhongTapSummary,
 } from '../services/phongTap.service';
+
+// GET /api/phong-tap/summary
+export const getPhongTapSummaryController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const summary = await getPhongTapSummary();
+
+    return res.json({
+      success: true,
+      data: summary,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // GET /api/phong-tap - lấy thông tin phòng tập hiện tại
 export const getPhongTapController = async (

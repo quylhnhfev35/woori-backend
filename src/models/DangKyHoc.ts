@@ -4,7 +4,7 @@ export interface IDangKyHoc extends Document {
   hocVien: Types.ObjectId;
   lopHoc: Types.ObjectId;
   ngayBatDau: Date;
-  ngayKetThucDuKien?: Date; // ví dụ: sau 3 tháng
+  ngayKetThucDuKien?: Date;
   hocPhiMotThangTaiThoiDiemDangKy: number;
   soThangDaDong?: number;
   trangThai: 'dang_doi' | 'dang_hoc' | 'tam_dung' | 'da_ket_thuc';

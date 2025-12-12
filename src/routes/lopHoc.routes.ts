@@ -6,6 +6,7 @@ import {
   updateLopHocController,
   toggleTrangThaiLopHocController,
   deleteLopHocController,
+  generateBuoiTapForLopHocController,
 } from '../controllers/lopHoc.controller';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
@@ -13,6 +14,13 @@ const router = Router();
 
 // POST /api/lop-hoc
 router.post('/', authMiddleware, createLopHocController);
+
+// Generate buổi tập cho một lớp dựa trên thoiGianKhaiGiang, thoiGianKetThuc, lichHoc
+router.post(
+  '/:id/generate-buoi-tap',
+  authMiddleware,
+  generateBuoiTapForLopHocController
+);
 
 // GET /api/lop-hoc
 router.get('/', authMiddleware, getLopHocsController);
@@ -24,7 +32,11 @@ router.get('/:id', authMiddleware, getLopHocByIdController);
 router.put('/:id', authMiddleware, updateLopHocController);
 
 // PATCH /api/lop-hoc/:id/trang-thai
-router.patch('/:id/trang-thai', authMiddleware, toggleTrangThaiLopHocController);
+router.patch(
+  '/:id/trang-thai',
+  authMiddleware,
+  toggleTrangThaiLopHocController
+);
 
 // DELETE /api/lop-hoc/:id
 router.delete('/:id', authMiddleware, deleteLopHocController);

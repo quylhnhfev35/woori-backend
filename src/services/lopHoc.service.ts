@@ -1,4 +1,5 @@
 import { LopHoc, ILopHoc } from '../models/LopHoc';
+import { generateBuoiTapForLopHoc } from './buoiTap.service';
 import { Types } from 'mongoose';
 
 // DTO cho lịch học
@@ -13,15 +14,20 @@ export interface CreateLopHocDto {
   tenLop: string;
   capDo: 'thieu_nhi' | 'can_ban' | 'trung_cap' | 'nang_cao';
   moTa?: string;
-  phongTap?: string; // ObjectId dạng string
+  phongTap?: string;
 
-  giangVienChinh?: string;   // ref NguoiDung
-  giangVienPhu?: string[];   // ref NguoiDung[]
+  giangVienChinh?: string;
+  giangVienPhu?: string[];
 
   soLuongToiDa?: number;
-  lichHoc?: LichHocItemDto[];
   hocPhiMotThang: number;
   dangMo?: boolean;
+
+  thoiGianKhaiGiang: Date;
+  thoiGianKetThuc?: Date;
+  lichHoc: LichHocItemDto[];
+
+  autoGenerateBuoiTap?: boolean;
 }
 
 // DTO update lớp học
@@ -40,20 +46,25 @@ export interface LopHocListResult {
 export const createLopHoc = async (
   payload: CreateLopHocDto
 ): Promise<ILopHoc> => {
+  const { autoGenerateBuoiTap, ...rest } = payload;
+
   const docToCreate = {
-    ...payload,
-    phongTap: payload.phongTap
-      ? new Types.ObjectId(payload.phongTap)
+    ...rest,
+    phongTap: rest.phongTap ? new Types.ObjectId(rest.phongTap) : undefined,
+    giangVienChinh: rest.giangVienChinh
+      ? new Types.ObjectId(rest.giangVienChinh)
       : undefined,
-    giangVienChinh: payload.giangVienChinh
-      ? new Types.ObjectId(payload.giangVienChinh)
-      : undefined,
-    giangVienPhu: payload.giangVienPhu
-      ? payload.giangVienPhu.map((id) => new Types.ObjectId(id))
+    giangVienPhu: rest.giangVienPhu
+      ? rest.giangVienPhu.map((id) => new Types.ObjectId(id))
       : undefined,
   };
 
   const lopHoc = await LopHoc.create(docToCreate);
+
+  // Nếu FE gửi autoGenerateBuoiTap = true => sinh buổi tập luôn
+  if (autoGenerateBuoiTap) {
+    await generateBuoiTapForLopHoc(lopHoc._id.toString());
+  }
 
   return lopHoc;
 };
@@ -170,4 +181,13 @@ export const toggleTrangThaiLopHoc = async (
 export const deleteLopHoc = async (id: string): Promise<ILopHoc | null> => {
   const lopHoc = await LopHoc.findByIdAndDelete(id);
   return lopHoc;
+};
+
+export const generateBuoiTapForLopHocService = async (
+  lopHocId: string
+): Promise<{ createdCount: number }> => {
+  const createdCount = await generateBuoiTapForLopHoc(lopHocId, {
+    clearExisting: true,
+  });
+  return { createdCount };
 };

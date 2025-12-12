@@ -3,10 +3,13 @@ import {
   getPhongTapController,
   createPhongTapController,
   updatePhongTapController,
+  getPhongTapSummaryController,
 } from '../controllers/phongTap.controller';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
+
+router.get('/summary', authMiddleware, getPhongTapSummaryController);
 
 // GET /api/phong-tap         -> lấy thông tin phòng tập hiện tại
 router.get('/', authMiddleware, getPhongTapController);

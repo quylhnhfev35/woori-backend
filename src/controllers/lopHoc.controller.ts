@@ -8,6 +8,8 @@ import {
   deleteLopHoc,
   CreateLopHocDto,
   UpdateLopHocDto,
+  // ⭐ thêm service generate buổi tập
+  generateBuoiTapForLopHocService,
 } from '../services/lopHoc.service';
 
 // Tạo mới lớp học
@@ -151,6 +153,26 @@ export const deleteLopHocController = async (
       success: true,
       message: 'Đã xóa lớp học',
       data: lopHoc,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const generateBuoiTapForLopHocController = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const result = await generateBuoiTapForLopHocService(id);
+
+    return res.json({
+      success: true,
+      message: 'Generate buổi tập cho lớp học thành công',
+      data: result, // { createdCount: number }
     });
   } catch (error) {
     next(error);

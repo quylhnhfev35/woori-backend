@@ -9,7 +9,7 @@ export interface CreateHocVienDto {
   diaChi?: string;
   capDaiHienTai?: string;
   ngayThamGia?: Date;
-  trangThai?: 'dang_doi' | 'dang_hoc' | 'tam_nghi' | 'nghi_han';
+  trangThai?: 'dang_doi' | 'dang_hoc' | 'tam_nghi' | 'nghi_han' | 'hoan_thanh';
   nguoiGiamHo?: string;
   soDienThoaiNguoiGiamHo?: string;
   ghiChu?: string;
@@ -39,7 +39,7 @@ export const getHocViens = async (params: {
   page?: number;
   limit?: number;
   keyword?: string;
-  trangThai?: 'dang_hoc' | 'tam_nghi' | 'nghi_han';
+  trangThai?: 'dang_doi' | 'dang_hoc' | 'tam_nghi' | 'nghi_han' | 'hoan_thanh';
   capDaiHienTai?: string;
 }): Promise<HocVienListResult> => {
   const {

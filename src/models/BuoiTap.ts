@@ -24,7 +24,7 @@ const BuoiTapSchema = new Schema<IBuoiTap>(
     gioKetThuc: { type: String },
     giangVienPhuTrach: {
       type: Schema.Types.ObjectId,
-      ref: 'NguoiDung',
+      ref: 'User',
     },
     trangThai: {
       type: String,

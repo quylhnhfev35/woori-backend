@@ -9,7 +9,7 @@ export interface IHocVien extends Document {
 
   capDaiHienTai?: string;   // trắng, vàng, xanh, đỏ, đen...
   ngayThamGia: Date;
-  trangThai: 'dang_doi' | 'dang_hoc' | 'tam_nghi' | 'nghi_han';
+  trangThai: 'dang_doi' | 'dang_hoc' | 'tam_nghi' | 'nghi_han' | 'hoan_thanh';
 
   nguoiGiamHo?: string;
   soDienThoaiNguoiGiamHo?: string;
@@ -29,7 +29,7 @@ const HocVienSchema = new Schema<IHocVien>(
     ngayThamGia: { type: Date, required: true, default: Date.now },
     trangThai: {
       type: String,
-      enum: ['dang_doi', 'dang_hoc', 'tam_nghi', 'nghi_han'],
+      enum: ['dang_doi', 'dang_hoc', 'tam_nghi', 'nghi_han', 'hoan_thanh'],
       default: 'dang_hoc',
     },
 
@@ -38,7 +38,7 @@ const HocVienSchema = new Schema<IHocVien>(
     ghiChu: { type: String },
   },
   {
-    timestamps: true, // createdAt, updatedAt
+    timestamps: true,
   }
 );
 

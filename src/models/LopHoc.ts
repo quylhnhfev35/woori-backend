@@ -17,9 +17,14 @@ export interface ILopHoc extends Document {
   giangVienPhu?: Types.ObjectId[];       // ref NguoiDung[]
 
   soLuongToiDa?: number;
+  soLuongHocVienHienTai: number;
   lichHoc: ILichHocItem[];
   hocPhiMotThang: number;
   dangMo: boolean;
+  trangThai: 'chua_bat_dau' | 'dang_dien_ra' | 'da_hoan_thanh' | 'da_huy';
+
+  thoiGianKhaiGiang: Date;
+  thoiGianKetThuc?: Date;
 }
 
 const LichHocItemSchema = new Schema<ILichHocItem>(
@@ -44,12 +49,12 @@ const LopHocSchema = new Schema<ILopHoc>(
 
     giangVienChinh: {
       type: Schema.Types.ObjectId,
-      ref: 'NguoiDung',
+      ref: 'User',
     },
     giangVienPhu: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'NguoiDung',
+        ref: 'User',
       },
     ],
 
@@ -57,6 +62,25 @@ const LopHocSchema = new Schema<ILopHoc>(
     lichHoc: { type: [LichHocItemSchema], default: [] },
     hocPhiMotThang: { type: Number, required: true },
     dangMo: { type: Boolean, default: true },
+    trangThai: {
+      type: String,
+      enum: ['chua_bat_dau', 'dang_dien_ra', 'da_hoan_thanh', 'da_huy'],
+      default: 'chua_bat_dau',
+      required: true,
+    },
+    
+    thoiGianKhaiGiang: {
+      type: Date,
+      required: true,
+    },
+    thoiGianKetThuc: {
+      type: Date,
+    },
+    soLuongHocVienHienTai: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   { timestamps: true }
 );
